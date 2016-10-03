@@ -1193,7 +1193,7 @@ thread_main_connection_upgrade (struct MHD_Connection *con)
         }
     }
 #ifdef HAVE_POLL
-  else if (0 != (daemon->options & MHD_USE_SSL)
+  else if (0 != (daemon->options & MHD_USE_SSL))
     {
       /* use poll() */
       const unsigned int timeout = UINT_MAX;
