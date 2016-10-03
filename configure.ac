@@ -691,46 +691,6 @@ AC_INCLUDES_DEFAULT
 
 AS_IF([[test -z "$use_itc"]], [AC_MSG_ERROR([[cannot find useable type of inter-thread communication]])])
 
-AC_MSG_CHECKING([[whether to enable signaling by socketpair]])
-
-AC_ARG_ENABLE([[socketpair]],
-	[AS_HELP_STRING([[--enable-socketpair[=ARG]]], [disable internal singalling by pipes and use socket pair instead (yes, no, try) [no]])], ,
-	[AS_IF([[test "x$os_is_windows" = "xyes"]], [enable_socketpair=yes], [enable_socketpair=no])]
-  )
-
-AS_IF(
-       [[test "x$enable_socketpair" != "xno"]],
-         [AS_IF([[test "x$os_is_windows" = "xyes"]],
-           [ AC_MSG_RESULT([[yes, forced on W32]]) ],
-           [ AC_LINK_IFELSE(
-             [ AC_LANG_PROGRAM([[
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
-#endif
-				]],[[
-				  int sv[2];
-				  if (socketpair(AF_UNIX, SOCK_STREAM, 0, sv) != 0) return 1
-				]])
-             ],
-             [ AC_MSG_RESULT([[yes, socketpair in available]]) ],
-             [ AC_MSG_RESULT([[no, socketpair in not available]])
-              AS_IF([[test "x$enable_socketpair" = "xyes"]], [ AC_MSG_ERROR([[socketpair signalling cannot be enabled.]]) ])
-             ]
-             )
-           ]
-          )
-         ],
-       [
-        AC_MSG_RESULT([[no]])
-        AS_IF([[test "x$os_is_windows" = "xyes"]], [ AC_MSG_ERROR([[socketpair must be enabled on W32]]) ])
-       ]
-     )
-if test "x$enable_socketpair" = "xyes"; then
-	AC_DEFINE([[MHD_DONT_USE_PIPES]], [[1]], [Define to use pair of sockets instead of pipes for signaling])
-fi
 
 AC_CHECK_FUNCS_ONCE([accept4 gmtime_r memmem snprintf])
 AC_CHECK_DECL([gmtime_s],
