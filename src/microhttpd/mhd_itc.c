@@ -51,7 +51,7 @@ MHD_pipe_write_ (struct MHD_Pipe pip,
 
 #endif /* _MHD_ITC_EVENTFD */
 
-#if defined(_MHD_ITC_EVENTFD) || defined(_MHD_ITC_PIPE)
+#if defined(_MHD_ITC_PIPE)
 #if !defined(_WIN32) || defined(__CYGWIN__)
 
 
