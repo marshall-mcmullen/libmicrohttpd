@@ -36,13 +36,13 @@
 #ifdef _MHD_ITC_EVENTFD
 
 int
-MHD_pipe_write_ (struct MHD_Pipe pip,
+MHD_pipe_write_ (_MHD_itc pip,
                  const void *ptr,
                  size_t sz)
 {
   uint64_t val = 1;
   if (sizeof (val) !=
-      write (pip.event_fd,
+      write (pip,
              &val,
              sizeof (val)))
     MHD_PANIC (_("Failed to write to eventfd\n"));
