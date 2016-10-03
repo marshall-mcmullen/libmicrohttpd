@@ -192,7 +192,7 @@ typedef struct MHD_Itc MHD_itc_;
  * @return non-zero if succeeded, zero otherwise
  */
 int
-MHD_itc_nonblocking_ (struct MHD_Pipe fd);
+MHD_itc_nonblocking_ (MHD_itc_ itc);
 
 
 #elif defined(_MHD_ITC_SOCKETPAIR)
