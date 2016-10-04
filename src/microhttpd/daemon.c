@@ -4079,6 +4079,16 @@ MHD_stop_daemon (struct MHD_Daemon *daemon)
 	       (MHD_INVALID_SOCKET == fd) )
 	    epoll_shutdown (&daemon->worker_pool[i]);
 #endif
+          if ( (MHD_USE_SUSPEND_RESUME == (daemon->options & MHD_USE_SUSPEND_RESUME)) )
+            {
+              if (-1 != daemon->worker_pool[i].wpipe[1])
+                {
+	           if (0 != MHD_pipe_close_ (daemon->worker_pool[i].wpipe[0]))
+	             MHD_PANIC ("close failed\n");
+	           if (0 != MHD_pipe_close_ (daemon->worker_pool[i].wpipe[1]))
+	             MHD_PANIC ("close failed\n");
+                }
+	    }
 	}
     }
   if (MHD_INVALID_PIPE_ != daemon->wpipe[1])
