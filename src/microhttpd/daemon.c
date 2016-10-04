@@ -3254,7 +3254,7 @@ MHD_start_daemon_va (unsigned int flags,
       return NULL;
     }
 #ifndef WINDOWS
-  if ( (0 == (flags & MHD_USE_POLL)) &&
+  if ( (0 == (flags & MHD_USE_POLL | MHD_USE_EPOLL_LINUX_ONLY)) &&
        (1 == use_pipe) &&
        (daemon->wpipe[0] >= FD_SETSIZE) )
     {
@@ -3694,7 +3694,7 @@ MHD_start_daemon_va (unsigned int flags,
               goto thread_failed;
             }
 #ifndef WINDOWS
-          if ( (0 == (flags & MHD_USE_POLL)) &&
+          if ( (0 == (flags & MHD_USE_POLL | MHD_USE_EPOLL_LINUX_ONLY)) &&
                (MHD_USE_SUSPEND_RESUME == (flags & MHD_USE_SUSPEND_RESUME)) &&
                (d->wpipe[0] >= FD_SETSIZE) )
             {
